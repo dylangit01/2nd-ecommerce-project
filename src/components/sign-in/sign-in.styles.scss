@@ -1,0 +1,17 @@
+.sign-in {
+  // 30 view width
+  //width: 30vw;
+  width: 380px;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    margin: 10px 0;
+  }
+
+  .buttons {
+    display: flex;
+    // notice, if the whole width is limited, and if the text inside of the button is too much, there is no space between the buttons
+    justify-content: space-between;
+  }
+}
