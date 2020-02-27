@@ -42,6 +42,7 @@ class App extends React.Component {
 
 
     render() {
+        const {currentUser} = this.props
         return (
             <div>
                 <Header/>
@@ -50,7 +51,7 @@ class App extends React.Component {
                     <Route exact path='/shop' component={ShopPage}/>
                     <Route exact path='/signin'
                            // below line means if currentUser exists, then redirect to home page, otherwise go to SignInAndSignUpPage page
-                           render={() => this.props.currentUser ? <Redirect to='/'/> : <SignInAndSignUpPage/>}
+                           render={() => currentUser ? <Redirect to='/'/> : <SignInAndSignUpPage/>}
                     />
                 </Switch>
             </div>
