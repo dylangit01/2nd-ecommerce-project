@@ -20,7 +20,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     const snapShot = await userRef.get();
     
     if(!snapShot.exists) {
-        const {displayName, email} = userAuth;  // Here, userAuth = {displayName, email}, so in Sign-up component, using {user} = {displayName, email}
+        const {displayName, email} = userAuth;
         const createAt = new Date()
         
         try {
