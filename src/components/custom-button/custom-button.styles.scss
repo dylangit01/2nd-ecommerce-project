@@ -13,6 +13,7 @@
   font-weight: bolder;
   border: none;
   cursor: pointer;
+  // anything inside the button will be center
   display: flex;
   justify-content: center;
 
@@ -43,4 +44,17 @@
       border: none;
     }
   }
+
+  &.inverted {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+
+    &:hover {
+      background-color: black;
+      color: white;
+      border: none;
+    }
+  }
+
 }
