@@ -5,11 +5,12 @@ import {ReactComponent as ShoppingIcon} from "../../assets/shopping-bag.svg";
 
 import {connect} from 'react-redux'
 import {toggleCartIconAction} from "../../redux/cart/cart.actitons";
+import {selectCartItemCount} from "../../redux/cart/cart.selector";
 
-const CartIcon = ({toggleCartIconAction}) => (
+const CartIcon = ({toggleCartIconAction, itemCount}) => (
     <div className='cart-icon' onClick={toggleCartIconAction}>
         <ShoppingIcon className='shopping-icon'/>
-        <span className='item-count'> 0 </span>
+        <span className='item-count'> {itemCount} </span>
     </div>
 );
 
@@ -24,4 +25,13 @@ const mapDispatchToProps = dispatch => ({
 //     }
 // };
 
-export default connect(null, mapDispatchToProps)(CartIcon)
+const mapStateToProps = (state) => ({
+    itemCount: selectCartItemCount(state)
+});
+
+// since we use createSelector method to replace the cartItems reducer, we can write as above by pass in (state)
+// const mapStateToProps = ({cart: {cartItems}}) => ({
+//     itemCount: cartItems.reduce((accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,0)
+// });
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)
