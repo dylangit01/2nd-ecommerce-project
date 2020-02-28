@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {setCurrentUser} from "./redux/user/user.actions";
 import {createStructuredSelector} from "reselect";
 import {selectCurrentUser} from "./redux/user/user.selector";
+import CheckoutPage from "./pages/checkout/checkout.component";
 
 
 class App extends React.Component {
@@ -42,7 +43,6 @@ class App extends React.Component {
         this.unsubscribeFromAuth()
     }
 
-
     render() {
         const {currentUser} = this.props
         return (
@@ -51,8 +51,9 @@ class App extends React.Component {
                 <Switch>
                     <Route exact path='/' component={HomePage}/>
                     <Route exact path='/shop' component={ShopPage}/>
+                    <Route exact path='/checkout' component={CheckoutPage}/>
                     <Route exact path='/signin'
-                           // below line means if currentUser exists, then redirect to home page, otherwise go to SignInAndSignUpPage page
+                        // below line means if currentUser exists, then redirect to home page, otherwise go to SignInAndSignUpPage page
                            render={() => currentUser ? <Redirect to='/'/> : <SignInAndSignUpPage/>}
                     />
                 </Switch>
@@ -71,7 +72,7 @@ class App extends React.Component {
 //     currentUser: user.currentUser
 // });
 
-const mapStateToProps = createStructuredSelector ({
+const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser
 });
 
