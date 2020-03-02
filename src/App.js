@@ -50,7 +50,8 @@ class App extends React.Component {
                 <Header/>
                 <Switch>
                     <Route exact path='/' component={HomePage}/>
-                    <Route exact path='/shop' component={ShopPage}/>
+                    {/*/ if path has forwarding path, it cannot be exact, as deeper path won't be rendered /*/}
+                    <Route path='/shop' component={ShopPage}/>
                     <Route exact path='/checkout' component={CheckoutPage}/>
                     <Route exact path='/signin'
                         // below line means if currentUser exists, then redirect to home page, otherwise go to SignInAndSignUpPage page
