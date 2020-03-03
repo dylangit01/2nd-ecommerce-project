@@ -1,9 +1,10 @@
 import React from "react";
-import './sign-in.styles.scss';
+// import './sign-in.styles.scss';
 
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import {auth, sigInWithGoogle} from "../../firebase/firebase.utils";
+import {ButtonsBarContainer, SignInContainer, SignInTitle} from "./sign-in.styles";
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -34,8 +35,8 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div className='sign-in'>
-                <h2 className='title'>I already have an account</h2>
+            <SignInContainer>
+                <SignInTitle>I already have an account</SignInTitle>
                 <span>Sign in with your email and password</span>
 
                 <form onSubmit={this.handleSubmit}>
@@ -56,17 +57,53 @@ class SignIn extends React.Component {
                         label='password'
                     />
 
-                    <div className='buttons'>
+                    <ButtonsBarContainer>
                         <CustomButton type="submit">Sign in </CustomButton>
 
                         <CustomButton onClick={sigInWithGoogle} isGoogleSignin>
                             Sign in With Google
                         </CustomButton>
-                    </div>
+                    </ButtonsBarContainer>
                 </form>
-            </div>
+            </SignInContainer>
         )
     }
+
+    // render() {
+    //     return (
+    //         <div className='sign-in'>
+    //             <h2 className='title'>I already have an account</h2>
+    //             <span>Sign in with your email and password</span>
+    //
+    //             <form onSubmit={this.handleSubmit}>
+    //                 <FormInput
+    //                     name='email'
+    //                     type='email'
+    //                     value={this.state.email}
+    //                     required
+    //                     handleChange={this.handleChange}
+    //                     label='email'
+    //                 />
+    //                 <FormInput
+    //                     name='password'
+    //                     type='password'
+    //                     value={this.state.password}
+    //                     required
+    //                     handleChange={this.handleChange}
+    //                     label='password'
+    //                 />
+    //
+    //                 <div className='buttons'>
+    //                     <CustomButton type="submit">Sign in </CustomButton>
+    //
+    //                     <CustomButton onClick={sigInWithGoogle} isGoogleSignin>
+    //                         Sign in With Google
+    //                     </CustomButton>
+    //                 </div>
+    //             </form>
+    //         </div>
+    //     )
+    // }
 }
 
 export default SignIn

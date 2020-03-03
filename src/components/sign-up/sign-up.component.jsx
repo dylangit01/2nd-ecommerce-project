@@ -1,9 +1,10 @@
 import React from "react";
-import './sign-up.styles.scss'
+// import './sign-up.styles.scss'
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
 import { auth, createUserProfileDocument} from "../../firebase/firebase.utils";
+import {SignUpContainer, SignUpTitle} from "./sign-up.styles";
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -53,8 +54,8 @@ class SignUp extends React.Component {
     render() {
         const {displayName, email, password, confirmPassword} = this.state
         return (
-            <div className='sign-up'>
-                <h2 className='title'>I do not have an account</h2>
+            <SignUpContainer>
+                <SignUpTitle>I do not have an account</SignUpTitle>
                 <span>Sign up with your email and password</span>
 
                 <form className='sign-up-form' onSubmit={this.handleSubmit}>
@@ -95,9 +96,59 @@ class SignUp extends React.Component {
                         <CustomButton type='submit'>SIGN UP</CustomButton>
                     </div>
                 </form>
-            </div>
+            </SignUpContainer>
         )
     }
+
+
+    // render() {
+    //     const {displayName, email, password, confirmPassword} = this.state
+    //     return (
+    //         <div className='sign-up'>
+    //             <h2 className='title'>I do not have an account</h2>
+    //             <span>Sign up with your email and password</span>
+    //
+    //             <form className='sign-up-form' onSubmit={this.handleSubmit}>
+    //                 <FormInput
+    //                     name='displayName'
+    //                     type='text'
+    //                     value={displayName}
+    //                     handleChange={this.handleChange}
+    //                     required
+    //                     label='Display Name'
+    //                 />
+    //                 <FormInput
+    //                     name='email'
+    //                     type='email'
+    //                     value={email}
+    //                     handleChange={this.handleChange}
+    //                     required
+    //                     label='email'
+    //                 />
+    //                 <FormInput
+    //                     name='password'
+    //                     type='password'
+    //                     value={password}
+    //                     handleChange={this.handleChange}
+    //                     required
+    //                     label='password'
+    //                 />
+    //                 <FormInput
+    //                     name='confirmPassword'
+    //                     type='password'
+    //                     value={confirmPassword}
+    //                     handleChange={this.handleChange}
+    //                     required
+    //                     label='Confirm Password'
+    //                 />
+    //                 {/*// Notice!!! below submit button has to be placed into the form tag!!!*/}
+    //                 <div className='buttons'>
+    //                     <CustomButton type='submit'>SIGN UP</CustomButton>
+    //                 </div>
+    //             </form>
+    //         </div>
+    //     )
+    // }
 }
 
 export default SignUp

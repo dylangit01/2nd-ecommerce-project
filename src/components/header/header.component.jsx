@@ -1,5 +1,6 @@
 import React from "react";
-import './header.styles.scss'
+// import './header.styles.scss'
+import './header.styles'
 
 import {Link} from "react-router-dom";
 
@@ -12,31 +13,32 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import {selectCurrentUser} from "../../redux/user/user.selector";
 import {selectCartHidden} from "../../redux/cart/cart.selector";
 import {createStructuredSelector} from "reselect";
+import {HeaderContainer, LogoContainer, OptionLink, OptionsContainer} from "./header.styles";
 
 const Header =({currentUser, hidden}) => (
-    <div className='header'>
-       <Link className='logo-container' to='/'>
+    <HeaderContainer>
+       <LogoContainer to='/'>
            <Logo className='logo' />
-       </Link>
-        <div className='options'>
-            <Link className='option' to='/shop'>
+       </LogoContainer>
+        <OptionsContainer>
+            <OptionLink to='/shop'>
                 SHOP
-            </Link>
-            <Link className='option' to='/shop'>
+            </OptionLink>
+            <OptionLink to='/shop'>
                 CONTACT
-            </Link>
+            </OptionLink>
             {
                 currentUser ?
-                    <div className='option' onClick={()=> auth.signOut()}>SIGN OUT</div>
+                    <OptionLink as='div' onClick={()=> auth.signOut()}>SIGN OUT</OptionLink>
                     :
                     <Link to='/signin' >SIGN IN</Link>
             }
             <CartIcon/>
-        </div>
+        </OptionsContainer>
         {
             hidden ? null : <CartDropdown/>
         }
-    </div>
+    </HeaderContainer>
 );
 
 // original codes, so we can destruct it as below:
