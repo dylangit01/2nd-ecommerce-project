@@ -13,6 +13,8 @@ const config = {
     measurementId: "G-YDWF4DNT58"
 };
 
+firebase.initializeApp(config);
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if(!userAuth) return;
 
@@ -37,11 +39,42 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef
 };
 
+// Below function is for storing shop data into firebase programmatically, used only once:
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    // below line just register this "collectionKey" into firebase
+    const collectionRef = firestore.collection(collectionKey);
+    // console.log(collectionRef)
 
+    const batch = firestore.batch();
+    // then we using "collectionRef.doc()" to assign UID to each obj of objectsToAdd, then batch them together to
+    // create (batch.set) this newDocRef into Firebase
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj)
+    });
+    // after we set, then we need to return this promise, that is async function, so using "return await"
+   return await batch.commit()
+};
 
+// Below function is used to get shop data from firebase into our app:
+export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+        const { title, items } = doc.data();
 
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items
+        }
+    });
+    console.log(transformedCollection)
+    return transformedCollection.reduce((accumulator, collection)=> {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator
+        }, {})
+};
 
-firebase.initializeApp(config);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();

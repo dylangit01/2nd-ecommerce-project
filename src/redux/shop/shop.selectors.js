@@ -29,13 +29,13 @@ export const shopSelectorCollections = createSelector(
 export const selectCollection = collectionUrlParam =>
     createSelector(
         [shopSelectorCollections],
-        collections => collections[collectionUrlParam]
+        collections => collections?  collections[collectionUrlParam] : null
     );
 
 // since we changed shop items from array to an object, but collection-preview component still using the shop items as an array,
 // so we can make a new selector to transfer the object back to an array:
-// then we need to add this selector to CollectionOverview component:
+// then we needs to add this selector to CollectionOverview component:
 export const selectCollectionsForPreview = createSelector(
     [shopSelectorCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 );

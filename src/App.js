@@ -13,6 +13,7 @@ import {setCurrentUser} from "./redux/user/user.actions";
 import {createStructuredSelector} from "reselect";
 import {selectCurrentUser} from "./redux/user/user.selector";
 import CheckoutPage from "./pages/checkout/checkout.component";
+// import {selectCollectionsForPreview} from "./redux/shop/shop.selectors";
 
 
 class App extends React.Component {
@@ -20,7 +21,7 @@ class App extends React.Component {
     unsubscribeFromAuth = null
 
     componentDidMount() {
-        const {setCurrentUser} = this.props
+        const {setCurrentUser} = this.props;
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {  // this line is to check if any user sign in with Google
             if (userAuth) {
                 const userRef = await createUserProfileDocument(userAuth); // if userAuth passed, then get userRef to either check if this user exists in firebase, if not, then create this user into
@@ -34,9 +35,16 @@ class App extends React.Component {
                     }, () => console.log(this.state))
                 })
             } else {
-                setCurrentUser(userAuth)
+                setCurrentUser(userAuth);
+
+                // below is new function by using collectionsArray to store all shop items into firebase
+                // "collections" is the ID that will be written into Firebase
+                // Below deconstruct array to title and items, and return a new array with title and items only:
+                // After we store the item data into firebase, we can remove below lines, so that the firebase won't store the codes twice.
+
+               // await addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({ title, items})) )
             }
-        })
+        });
     }
 
     componentWillUnmount() {
@@ -64,6 +72,15 @@ class App extends React.Component {
     }
 }
 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    // Below line is in order to programmatically store the collectionsArrays into firebase,
+    // since we already alter the shop items to object, so we have to use "selectCollectionsForPreview" which transfer
+    // Object to an array, so that we can get all arrays.
+
+    // collectionsArray: selectCollectionsForPreview
+});
+
 // we destructor below state.user to ({user})
 // const mapStateToProps = state => ({
 //     currentUser: state.user.currentUser
@@ -72,10 +89,6 @@ class App extends React.Component {
 // const mapStateToProps = ({user}) => ({
 //     currentUser: user.currentUser
 // });
-
-const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser
-});
 
 const mapDispatchToProps = dispatch => ({
     setCurrentUser: user => dispatch(setCurrentUser(user))
