@@ -2,8 +2,6 @@ import React from "react";
 // import './header.styles.scss'
 import './header.styles'
 
-import {Link} from "react-router-dom";
-
 import {ReactComponent as Logo } from "../../assets/crown.svg";
 import {auth} from "../../firebase/firebase.utils";
 
@@ -31,7 +29,7 @@ const Header =({currentUser, hidden}) => (
                 currentUser ?
                     <OptionLink as='div' onClick={()=> auth.signOut()}>SIGN OUT</OptionLink>
                     :
-                    <Link to='/signin' >SIGN IN</Link>
+                    <OptionLink to='/signin' >SIGN IN</OptionLink>
             }
             <CartIcon/>
         </OptionsContainer>

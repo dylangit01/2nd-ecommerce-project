@@ -1,5 +1,7 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
+import {GlobalStyle} from "./global.styles";
+
 import HomePage from "./pages/homepage/homepage.component";
 
 import {Switch, Route, Redirect} from 'react-router-dom'
@@ -55,6 +57,7 @@ class App extends React.Component {
         const {currentUser} = this.props
         return (
             <div>
+                <GlobalStyle/>
                 <Header/>
                 <Switch>
                     <Route exact path='/' component={HomePage}/>
