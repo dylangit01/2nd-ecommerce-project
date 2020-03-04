@@ -29,7 +29,7 @@ export const shopSelectorCollections = createSelector(
 export const selectCollection = collectionUrlParam =>
     createSelector(
         [shopSelectorCollections],
-        collections => collections?  collections[collectionUrlParam] : null
+        collections => (collections?  collections[collectionUrlParam] : null)
     );
 
 // since we changed shop items from array to an object, but collection-preview component still using the shop items as an array,
@@ -38,4 +38,14 @@ export const selectCollection = collectionUrlParam =>
 export const selectCollectionsForPreview = createSelector(
     [shopSelectorCollections],
     collections => collections ? Object.keys(collections).map(key => collections[key]) : []
+);
+
+export const selectIsCollectionFetching = createSelector(
+    [selectShop],
+    shop => shop.isFetching
+);
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections
 );

@@ -7,36 +7,43 @@ import CollectionOverview from "../../components/collection-overview/collection-
 
 import {Route} from 'react-router-dom'
 import CollectionPage from "../collection/collection.component";
-import {firestore} from '../../firebase/firebase.utils';
-import {convertCollectionsSnapshotToMap} from "../../firebase/firebase.utils";
-import {updateCollections} from "../../redux/shop/shop.actions";
+// import {firestore} from '../../firebase/firebase.utils';
+// import {convertCollectionsSnapshotToMap} from "../../firebase/firebase.utils";
+import {fetchCollectionsStartAsync} from "../../redux/shop/shop.actions";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
+import {createStructuredSelector} from "reselect";
+import {selectIsCollectionFetching, selectIsCollectionsLoaded} from "../../redux/shop/shop.selectors";
 
 const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends React.Component {
 
-    state = {
-        loading: true
-    };
-
-    unsubscribeFromSnapshot = null;
+    // since we using thunk for redux, we dont need this state anymore:
+    // state = {
+    //     loading: true
+    // };
+    // unsubscribeFromSnapshot = null;
 
     componentDidMount() {
-        const {updateCollections} = this.props
-        const collectionRef = firestore.collection('collections');
+        const {fetchCollectionsStartAsync} = this.props;
+        fetchCollectionsStartAsync();
 
-        // Promise Pattern
-        collectionRef.get().then(snapshot => {
-            // console.log(snapshot)
-            const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-            console.log(collectionsMap);
-            updateCollections(collectionsMap);
+        // Since we use thunk in redux, we dont need below codes anymore:
+        // const {updateCollections} = this.props
+        // const collectionRef = firestore.collection('collections');
+        //
+        // // Promise Pattern
+        // collectionRef.get().then(snapshot => {
+        //     // console.log(snapshot)
+        //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+        //     console.log(collectionsMap);
+        //     updateCollections(collectionsMap);
+        //
+        //     this.setState({loading: false});
+        // })
 
-            this.setState({loading: false});
-        })
-
+        // Original codes by using Firebase collectionRef.onSnapshop method:
         // this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
         //     // console.log(snapshot)
         //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
@@ -48,13 +55,11 @@ class ShopPage extends React.Component {
     }
 
     render() {
-        const {match} = this.props;
-        const {loading} = this.state
-        console.log(match);
+        const {match, selectIsCollectionsLoaded} = this.props;
         return (
             <div className='shop-page'>
-                <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={loading} {...props} />}/>
-                <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />}/>
+                <Route exact path={`${match.path}`} render={(props) => <CollectionOverviewWithSpinner isLoading={!selectIsCollectionsLoaded} {...props} />}/>
+                <Route path={`${match.path}/:collectionId`} render={(props) => <CollectionPageWithSpinner isLoading={!selectIsCollectionsLoaded} {...props} />}/>
             </div>
         );
     }
@@ -76,11 +81,21 @@ class ShopPage extends React.Component {
 //     collections: state.shop.collections
 // });
 
-const mapDispatchToProps = dispatch => ({
-    updateCollections: collectionsMap => dispatch(updateCollections(collectionsMap))
+// Since we use thunk for redux, and we use dispatch method in shop.selector.js, we dont need dispatch here:
+// const mapDispatchToProps = dispatch => ({
+//     updateCollections: collectionsMap => dispatch(updateCollections(collectionsMap))
+// });
+
+const mapStateToProps = createStructuredSelector({
+    isCollectionFetching: selectIsCollectionFetching,
+    selectIsCollectionsLoaded: selectIsCollectionsLoaded
 });
 
-export default connect(null, mapDispatchToProps)(ShopPage)
+const mapDispatchToProps = dispatch => ({
+    fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage)
 
 
 // Original codes as below:
