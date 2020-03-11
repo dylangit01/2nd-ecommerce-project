@@ -22,6 +22,7 @@ const CartDropdown = ({cartItems, history, dispatch}) => (
             }
         </CartItemsContainer>
         <CartDropdownButton
+            // notice! => /checkout shouldn't have ".", which cause error in my app
             onClick={() => {
                 history.push('/checkout');
                 // so instead using mapDispatchToProps to fire an hidden cart-icon action, we can pass-in "dispatch" into the function directly and using it here,
