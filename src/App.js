@@ -57,7 +57,7 @@ class App extends React.Component {
         const {currentUser} = this.props
         return (
             <div>
-                <GlobalStyle/>
+                <GlobalStyle />
                 <Header/>
                 <Switch>
                     <Route exact path='/' component={HomePage}/>

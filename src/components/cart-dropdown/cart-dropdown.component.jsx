@@ -23,7 +23,7 @@ const CartDropdown = ({cartItems, history, dispatch}) => (
         </CartItemsContainer>
         <CartDropdownButton
             onClick={() => {
-                history.push('./checkout');
+                history.push('/checkout');
                 // so instead using mapDispatchToProps to fire an hidden cart-icon action, we can pass-in "dispatch" into the function directly and using it here,
                 // notice, here have to add {} after "=>"
                 dispatch(toggleCartIconAction())

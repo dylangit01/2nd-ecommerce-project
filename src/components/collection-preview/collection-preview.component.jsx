@@ -4,7 +4,7 @@ import CollectionItem from "../collection-item/collection-item.component";
 import {CollectionPreviewContainer, PreviewContainer, TitleContainer} from "./collection-preview.styles";
 import {withRouter} from 'react-router-dom'
 
-const CollectionPreview = ({title, items, history, match, routeName }) => (
+const CollectionPreview = ({ title, items, history, match, routeName }) => (
     <CollectionPreviewContainer>
         <TitleContainer
             onClick = {() => history.push(`${match.path}/${routeName}`)}

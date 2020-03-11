@@ -30,14 +30,14 @@ const CheckoutPage = ({cartItems, total}) => (
         </CheckoutHeaderContainer>
 
         {
-            cartItems.map(cartItem =>
+            cartItems.map(cartItem => (
                 <CheckoutItem
                     key={cartItem.id} cartItem={cartItem}
-                />)
+                />))
         }
 
         <TotalContainer>
-            <span>TOTAL: ${total}</span>
+            TOTAL: ${total}
         </TotalContainer>
 
         <WarningContainer>

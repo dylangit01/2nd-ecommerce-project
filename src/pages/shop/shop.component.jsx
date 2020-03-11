@@ -12,7 +12,7 @@ import CollectionPage from "../collection/collection.component";
 import {fetchCollectionsStartAsync} from "../../redux/shop/shop.actions";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
 import {createStructuredSelector} from "reselect";
-import {selectIsCollectionsLoaded} from "../../redux/shop/shop.selectors";
+import {selectIsCollectionFetching, selectIsCollectionsLoaded} from "../../redux/shop/shop.selectors";
 
 const CollectionOverviewWithSpinner = WithSpinner(CollectionOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
@@ -55,16 +55,18 @@ class ShopPage extends React.Component {
     }
 
     render() {
-        const {match, selectIsCollectionsLoaded} = this.props;
+        const {match, selectIsCollectionsLoaded, isCollectionFetching} = this.props;
+        console.log(match.path)
         return (
             <div className='shop-page'>
                 <Route exact path={`${match.path}`}
                        render={props =>
-                           <CollectionOverviewWithSpinner isLoading={!selectIsCollectionsLoaded} {...props} />
+                           <CollectionOverviewWithSpinner isLoading={isCollectionFetching} {...props} />
                        }
                 />
-                <Route exact path={`${match.path}/:collectionId`}
+                <Route path={`${match.path}/:collectionId`}
                        render={props =>
+                           // if selectIsCollectionsLoaded is false, meaning no collections fetched yet, this situation isLoading is true to render the spinner
                            <CollectionPageWithSpinner isLoading={!selectIsCollectionsLoaded} {...props} />
                        }
                 />
@@ -95,7 +97,7 @@ class ShopPage extends React.Component {
 // });
 
 const mapStateToProps = createStructuredSelector({
-    // isCollectionFetching: selectIsCollectionFetching,
+    isCollectionFetching: selectIsCollectionFetching,
     selectIsCollectionsLoaded: selectIsCollectionsLoaded
 });
 
